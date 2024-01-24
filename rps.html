@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rock Paper Scissor Game</title>
+    <style>
+        body {
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            overflow: hidden;
+        }
+
+        h1 {
+            font-size: 40px;
+            font-weight: 600;
+        }
+
+        .options {
+            height: 250px;
+            width: 600px;
+            display: flex;
+            justify-content: space-evenly;
+        }
+
+        .option {
+            height: 100%;
+            width: 100%;
+            font-size: 150px;
+            text-shadow: 0px 0px 15px red;
+        }
+
+        .option:hover {
+            transform: scale(1.03);
+            transition: all ease-in 0.15s;
+            cursor: pointer;
+            text-shadow: 0px 0px 25px red;
+        }
+
+        .option:active {
+            transform: scale(1);
+        }
+
+        .scores {
+            height: 100px;
+            font-size: 20px;
+            width: 500px;
+            display: flex;
+            justify-content: space-evenly;
+        }
+
+        .msg {
+            height: 35px;
+            width: 200px;
+            margin: 0px;
+            padding: 0px;
+            text-align: center;
+            font-size: 22px;
+            background-color: black;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Rock Paper Scissor Game</h1>
+    <div class="options">
+        <div class="option" id="rock">✊</div>
+        <div class="option" id="paper">🖐</div>
+        <div class="option" id="scissor">✌</div>
+    </div>
+    <div class="scores">
+        <div class="user">
+            <p>You : </p>
+        </div>
+        <div class="computer">
+            <p>Computer : </p>
+        </div>
+    </div>
+    <div class="msg">Play your moves🤍</div>
+    <script>
+        let userScore = 0;
+        let computerScore = 0;
+        let msg = document.querySelector(".msg");
+        let userScored = document.querySelector(".user");
+        let computerScored = document.querySelector(".computer");
+
+        const generateComputerChoice = () => {
+            const arr = ["rock", "paper", "scissor"];
+            let generate = Math.floor(Math.random() * 3);
+            // console.log(arr[generate]);
+            return arr[generate];
+        }
+
+        const drawGame = ()=>{
+            console.log("game draw");
+            msg.innerText = "Game Draw❤"
+            msg.style.backgroundColor = "blue"
+        }
+
+        const showWin = (userWin)=>{
+            if(userWin){
+                userScore++;
+                userScored.innerHTML = userScore;
+                msg.innerText = "you win😀"
+                msg.style.backgroundColor = "green"
+                console.log("you win");
+            }else{
+                computerScore++;
+                computerScored.innerHTML = computerScore;
+                msg.innerText = "you lose😫"
+                msg.style.backgroundColor = "red"
+                console.log("you lose");
+            }
+        }
+
+        const play = (userChoice) => {
+            console.log(`user : ${userChoice}`);
+            let comChoice = generateComputerChoice();
+            console.log(`computer :${comChoice}`);
+            
+            if (userChoice===comChoice){
+                drawGame();
+            } else {
+                let userWin = true;
+                if(userChoice==="rock"){
+                    userWin = comChoice === "paper"? false:true;
+                }else if(userChoice==="paper"){
+                    userWin = comChoice === "scissor"? false:true;
+                }else {
+                    userWin = comChoice === "rock"? false:true;
+                }
+                showWin(userWin);
+            }
+        }
+            
+            const opts = document.querySelectorAll(".option");
+            opts.forEach((choice) => {
+            choice.addEventListener("click", () => {
+                // console.log(choice.innerText);
+                let userChoice = choice.getAttribute("id");
+                // console.log(optId);
+                play(userChoice);
+            });
+        });
+    </script>
+</body>
+
+</html>
